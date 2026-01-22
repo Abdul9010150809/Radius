@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { Calendar, MapPin, Users, ExternalLink, Globe, Building2 } from "lucide-react"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -45,10 +46,12 @@ export function EventCard({ event, onRegister }: EventCardProps) {
       >
         {/* Image */}
         <div className="relative h-40 overflow-hidden">
-          <img
+          <Image
             src={event.image}
             alt={event.title}
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            fill
+            sizes="(max-width: 768px) 100vw, 400px"
+            className="object-cover transition-transform duration-300 hover:scale-105"
           />
           {/* Badges */}
           <div className="absolute top-3 left-3 flex gap-2">

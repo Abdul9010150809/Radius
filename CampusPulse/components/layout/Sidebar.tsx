@@ -4,7 +4,6 @@ import React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
-import { AnimatePresence } from "framer-motion"
 import {
   LayoutDashboard,
   QrCode,
@@ -12,6 +11,7 @@ import {
   BarChart3,
   Users,
   Settings,
+  MessageSquare,
   Compass,
   Calendar,
   Award,
@@ -31,6 +31,7 @@ const iconMap: Record<string, React.ReactNode> = {
   BarChart3: <BarChart3 className="h-5 w-5" />,
   Users: <Users className="h-5 w-5" />,
   Settings: <Settings className="h-5 w-5" />,
+  MessageSquare: <MessageSquare className="h-5 w-5" />,
   Compass: <Compass className="h-5 w-5" />,
   Calendar: <Calendar className="h-5 w-5" />,
   Award: <Award className="h-5 w-5" />,
@@ -39,17 +40,17 @@ const iconMap: Record<string, React.ReactNode> = {
 
 export function Sidebar() {
   const pathname = usePathname()
-  const { sidebarOpen, userRole, toggleSidebar } = useAppStore()
+  const { sidebarOpen, userRole, toggleSidebar, tenants, activeTenantId } = useAppStore()
   const items = SIDEBAR_ITEMS[userRole]
+  const activeTenant = tenants.find((t) => t.id === activeTenantId) ?? tenants[0]
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.aside
-        initial={false}
-        animate={{ width: sidebarOpen ? 272 : 76 }}
-        transition={{ duration: 0.28, ease: "easeInOut" }}
-        className="fixed left-0 top-0 z-40 h-screen border-r border-slate-800/70 bg-slate-950/85 backdrop-blur-xl"
-      >
+    <motion.aside
+      initial={false}
+      animate={{ width: sidebarOpen ? 272 : 76 }}
+      transition={{ duration: 0.28, ease: "easeInOut" }}
+      className="fixed left-0 top-0 z-40 h-screen border-r border-slate-800/70 bg-slate-950/85 backdrop-blur-xl"
+    >
         <div className="flex h-full flex-col">
           <div className="flex h-16 items-center justify-between border-b border-slate-800/70 px-4">
             <AnimatePresence mode="wait">
@@ -70,6 +71,12 @@ export function Sidebar() {
                 </motion.div>
               )}
             </AnimatePresence>
+            {sidebarOpen && activeTenant && (
+              <div className="mr-3 flex flex-col text-[11px] text-slate-300">
+                <span className="font-semibold text-white">{activeTenant.name}</span>
+                <span className="text-slate-400">{activeTenant.plan.name} · {activeTenant.usage.seatsUsed}/{activeTenant.plan.seats} seats</span>
+              </div>
+            )}
             <button
               onClick={toggleSidebar}
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-800 bg-slate-900 text-slate-300 transition hover:border-indigo-400 hover:text-white"
@@ -106,7 +113,7 @@ export function Sidebar() {
                     )}
                   </div>
                 </Link>
-              )}
+              )
             })}
           </nav>
 
@@ -122,7 +129,6 @@ export function Sidebar() {
           </div>
         </div>
       </motion.aside>
-    </AnimatePresence>
   )
 }
 

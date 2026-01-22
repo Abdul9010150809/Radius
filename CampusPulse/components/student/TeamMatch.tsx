@@ -2,10 +2,11 @@
 
 import React, { useState } from "react"
 import { motion } from "framer-motion"
-import { Users, Search, Briefcase, Filter, Globe } from "lucide-react"
+import { Users, Search, Briefcase, Globe } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { RecruitmentCard } from "./RecruitmentCard"
 import {

@@ -1,12 +1,14 @@
 "use client"
 
 import React, { useState } from "react"
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { Compass, Search, Filter, Globe, Building2, Calendar } from "lucide-react"
+import { Compass, Search, Globe, Building2, Calendar } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
+import { Card } from "@/components/ui/card"
 import { EventCard } from "./EventCard"
 import { EVENTS } from "@/lib/constants"
 
@@ -23,9 +25,6 @@ export function EventDiscovery() {
       activeFilter === "all" || event.type === activeFilter
     return matchesSearch && matchesFilter
   })
-
-  const globalEvents = EVENTS.filter((e) => e.type === "global")
-  const campusEvents = EVENTS.filter((e) => e.type === "campus")
 
   const container = {
     hidden: { opacity: 0 },
@@ -147,10 +146,12 @@ export function EventDiscovery() {
                   <Card className="overflow-hidden">
                     <div className="flex flex-col md:flex-row">
                       <div className="relative h-40 md:h-auto md:w-48">
-                        <img
+                        <Image
                           src={event.image}
                           alt={event.title}
-                          className="w-full h-full object-cover"
+                          width={192}
+                          height={160}
+                          className="h-full w-full object-cover"
                         />
                         <div className="absolute top-2 left-2">
                           <Badge

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import Image from "next/image"
 import { QrCode, RefreshCw, TimerReset } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -49,7 +50,13 @@ export function SmartAttendance() {
       </CardHeader>
       <CardContent className="grid gap-6 md:grid-cols-[260px,1fr]">
         <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-800 bg-slate-950/70 p-4 shadow-inner">
-          <img src={qrUrl} alt="Dynamic QR" className="h-48 w-48 rounded-lg border border-slate-800" />
+          <Image
+            src={qrUrl}
+            alt="Dynamic QR"
+            width={192}
+            height={192}
+            className="h-48 w-48 rounded-lg border border-slate-800"
+          />
           <div className="mt-4 flex items-center gap-2 text-sm text-slate-300">
             <QrCode className="h-4 w-4 text-indigo-300" />
             <span>Expires in</span>

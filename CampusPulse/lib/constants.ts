@@ -282,6 +282,7 @@ export const SIDEBAR_ITEMS = {
     { icon: 'QrCode', label: 'Smart Attendance', href: '/admin/attendance' },
     { icon: 'Radio', label: 'Live Feed', href: '/admin/feed' },
     { icon: 'BarChart3', label: 'Analytics', href: '/admin/analytics' },
+    { icon: 'MessageSquare', label: 'AI Assistant', href: '/admin/chatbot' },
     { icon: 'Users', label: 'Manage Users', href: '/admin/users' },
     { icon: 'Settings', label: 'Settings', href: '/admin/settings' },
   ],

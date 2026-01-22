@@ -12,6 +12,8 @@ import { AnalyticsView } from "@/components/admin/Analytics"
 import { EventDiscovery } from "@/components/student/EventDiscovery"
 import { TeamMatch } from "@/components/student/TeamMatch"
 import { ProfileView } from "@/components/common/ProfileView"
+import { BillingUsage } from "@/components/billing/BillingUsage"
+import { BillingChips } from "@/components/billing/BillingChips"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Radio, LogIn } from "lucide-react"
 
@@ -154,6 +156,13 @@ function AdminView() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
+      <div className="mb-3">
+        <BillingChips />
+      </div>
+      <div className="mb-6">
+        <BillingUsage />
+      </div>
+
       <Tabs defaultValue="dashboard" className="w-full">
         <TabsList className="grid w-full max-w-[600px] grid-cols-4">
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>

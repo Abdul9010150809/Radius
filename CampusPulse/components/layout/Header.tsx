@@ -10,6 +10,7 @@ import { useAppStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
 import { RoleSwitcher } from "./RoleSwitcher"
 import { ThemeToggle } from "./ThemeToggle"
+import { OrgSwitcher } from "./OrgSwitcher"
 
 export function Header() {
   const { currentUser } = useAppStore()
@@ -36,6 +37,7 @@ export function Header() {
 
       {/* Right side */}
       <div className="flex items-center gap-4">
+        <OrgSwitcher />
         <RoleSwitcher />
 
         <ThemeToggle />
