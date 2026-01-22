@@ -102,7 +102,7 @@ export function ProfileView() {
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
-                {user.skills?.map((skill, i) => (
+                {user.skills?.map((skill: string, i: number) => (
                   <Badge key={i} variant="secondary" className="text-sm px-3 py-1">
                     {skill}
                   </Badge>

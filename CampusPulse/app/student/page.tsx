@@ -1,54 +1,62 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Sidebar } from "@/components/layout/Sidebar"
-import { Header } from "@/components/layout/Header"
+import { useMemo } from "react"
 import { EventDiscovery } from "@/components/student/EventDiscovery"
 import { TeamMatch } from "@/components/student/TeamMatch"
 import { ProfileView } from "@/components/common/ProfileView"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { LockedFeature, LockedFeatureInline } from "@/components/common/LockedFeature"
 import { useAppStore } from "@/lib/store"
+import { AppShell } from "@/components/layout/AppShell"
 
 export default function StudentPage() {
-  const { sidebarOpen } = useAppStore()
+  const { tenants, activeTenantId } = useAppStore()
+  const activeTenant = useMemo(
+    () => tenants.find((t) => t.id === activeTenantId) ?? tenants[0],
+    [tenants, activeTenantId]
+  )
+
+  const isPremium = activeTenant.plan.name !== "Free"
 
   return (
-    <div className="min-h-screen bg-background flex">
-      <Sidebar />
-      <div
-        className={`flex-1 transition-all duration-300 ${
-          sidebarOpen ? "ml-[280px]" : "ml-[80px]"
-        }`}
-      >
-        <Header />
-        <main className="p-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Tabs defaultValue="discover" className="w-full">
-              <TabsList className="grid w-full max-w-[600px] grid-cols-3">
-                <TabsTrigger value="discover">Discover</TabsTrigger>
-                <TabsTrigger value="teams">Team Match</TabsTrigger>
-                <TabsTrigger value="profile">Profile</TabsTrigger>
-              </TabsList>
+    <AppShell title="Discover" subtitle="Find events and teams on your campus">
+      <Tabs defaultValue="discover" className="w-full">
+        <TabsList className="grid w-full max-w-[600px] grid-cols-3">
+          <TabsTrigger value="discover">Discover</TabsTrigger>
+          <TabsTrigger value="teams">Team Match</TabsTrigger>
+          <TabsTrigger value="profile">Profile</TabsTrigger>
+        </TabsList>
 
-              <div className="mt-6">
-                <TabsContent value="discover">
-                  <EventDiscovery />
-                </TabsContent>
-                <TabsContent value="teams">
+        <div className="mt-6">
+          <TabsContent value="discover">
+            <EventDiscovery />
+          </TabsContent>
+          <TabsContent value="teams">
+            {isPremium ? (
+              <TeamMatch />
+            ) : (
+              <div className="space-y-4">
+                <LockedFeatureInline featureName="Team Recruitment" requiredPlan="Team" />
+                <LockedFeature featureName="Team Recruitment Board" requiredPlan="Team" onUpgrade={() => alert("Contact your university admin to upgrade")}>
                   <TeamMatch />
-                </TabsContent>
-                <TabsContent value="profile">
-                  <ProfileView />
-                </TabsContent>
+                </LockedFeature>
               </div>
-            </Tabs>
-          </motion.div>
-        </main>
-      </div>
-    </div>
+            )}
+          </TabsContent>
+          <TabsContent value="profile">
+            {isPremium ? (
+              <ProfileView />
+            ) : (
+              <div className="space-y-4">
+                <LockedFeatureInline featureName="Digital Portfolio" requiredPlan="Team" />
+                <LockedFeature featureName="Student Digital Portfolio" requiredPlan="Team" onUpgrade={() => alert("Contact your university admin to upgrade")}>
+                  <ProfileView />
+                </LockedFeature>
+              </div>
+            )}
+          </TabsContent>
+        </div>
+      </Tabs>
+    </AppShell>
   )
 }

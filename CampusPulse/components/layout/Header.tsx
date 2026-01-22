@@ -19,9 +19,10 @@ export function Header() {
     <motion.header
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-6"
+      className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
     >
-      <div className="flex items-center gap-4">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
+        <div className="flex items-center gap-3">
         <div className="relative hidden md:block">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
           <Input
@@ -33,10 +34,10 @@ export function Header() {
           <Sparkles className="mr-2 h-4 w-4" />
           Quick Actions
         </Button>
-      </div>
+        </div>
 
-      {/* Right side */}
-      <div className="flex items-center gap-4">
+        {/* Right side */}
+        <div className="flex items-center gap-3">
         <OrgSwitcher />
         <RoleSwitcher />
 
@@ -50,7 +51,7 @@ export function Header() {
           </span>
         </Button>
 
-        <div className="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/70 px-3 py-2">
+        <div className="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/70 px-2 py-1">
           <Avatar className="h-9 w-9">
             <AvatarImage src={currentUser?.avatar} />
             <AvatarFallback>
@@ -61,6 +62,7 @@ export function Header() {
             <p className="text-sm font-medium text-white">{currentUser?.name}</p>
             <p className="text-xs text-slate-400">{currentUser?.department}</p>
           </div>
+        </div>
         </div>
       </div>
     </motion.header>

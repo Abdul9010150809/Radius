@@ -13,6 +13,18 @@ export type Event = {
   organizer: string
 }
 
+export type User = {
+  id: string
+  name: string
+  email: string
+  role: 'superadmin' | 'admin' | 'student' | 'public'
+  avatar: string
+  department?: string
+  year?: string
+  skills?: string[]
+  bio?: string
+}
+
 // Mock Data for CampusPulse
 
 export const USERS: User[] = [
@@ -61,7 +73,7 @@ export const EVENTS: Event[] = [
     category: 'Technical',
     registered: 245,
     maxCapacity: 300,
-    image: 'https://images.unsplash.com/photo-1504384308090-c54be3852f33?w=400',
+    image: 'https://picsum.photos/seed/hackathon/400',
     organizer: 'CS Department',
   },
   {
@@ -75,7 +87,7 @@ export const EVENTS: Event[] = [
     category: 'Professional',
     registered: 520,
     maxCapacity: 600,
-    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400',
+    image: 'https://picsum.photos/seed/careerfair/400',
     organizer: 'Career Services',
   },
   {
@@ -89,7 +101,7 @@ export const EVENTS: Event[] = [
     category: 'Workshop',
     registered: 45,
     maxCapacity: 50,
-    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400',
+    image: 'https://picsum.photos/seed/codeworkshop/400',
     organizer: 'Web Dev Club',
   },
   {
@@ -103,7 +115,7 @@ export const EVENTS: Event[] = [
     category: 'Design',
     registered: 32,
     maxCapacity: 40,
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400',
+    image: 'https://picsum.photos/seed/designsprint/400',
     organizer: 'Design Society',
   },
   {
@@ -117,7 +129,7 @@ export const EVENTS: Event[] = [
     category: 'Technical',
     registered: 180,
     maxCapacity: 250,
-    image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400',
+    image: 'https://picsum.photos/seed/aimlsymposium/400',
     organizer: 'AI Research Lab',
   },
   {
@@ -131,7 +143,7 @@ export const EVENTS: Event[] = [
     category: 'Business',
     registered: 89,
     maxCapacity: 100,
-    image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400',
+    image: 'https://picsum.photos/seed/startuppitch/400',
     organizer: 'Startup Club',
   },
 ]
@@ -292,6 +304,13 @@ export const KPIS = [
 ]
 
 export const SIDEBAR_ITEMS = {
+  superadmin: [
+    { icon: 'LayoutDashboard', label: 'Platform Overview', href: '/superadmin' },
+    { icon: 'Building2', label: 'Universities', href: '/superadmin/universities' },
+    { icon: 'TrendingUp', label: 'Revenue', href: '/superadmin/revenue' },
+    { icon: 'Activity', label: 'Platform Health', href: '/superadmin/health' },
+    { icon: 'Settings', label: 'Settings', href: '/superadmin/settings' },
+  ],
   admin: [
     { icon: 'LayoutDashboard', label: 'Dashboard', href: '/admin' },
     { icon: 'QrCode', label: 'Smart Attendance', href: '/admin/attendance' },
@@ -307,6 +326,9 @@ export const SIDEBAR_ITEMS = {
     { icon: 'Calendar', label: 'My Events', href: '/student/events' },
     { icon: 'Award', label: 'Certifications', href: '/student/certs' },
     { icon: 'User', label: 'Portfolio', href: '/student/profile' },
+  ],
+  public: [
+    { icon: 'Compass', label: 'Browse Events', href: '/public' },
   ],
 }
 

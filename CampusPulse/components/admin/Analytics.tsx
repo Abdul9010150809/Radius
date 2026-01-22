@@ -23,6 +23,7 @@ import {
   Pie,
   Cell,
 } from "recharts"
+import { ChartContainer } from "@/components/ui/chart"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -148,23 +149,27 @@ export function AnalyticsView() {
               <CardTitle>Department-wise Attendance</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={ANALYTICS_DATA}>
-                    <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                    <XAxis dataKey="department" className="text-xs" />
-                    <YAxis className="text-xs" />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "hsl(222 47% 11%)",
-                        border: "1px solid hsl(217 91% 60%)",
-                        borderRadius: "8px",
-                      }}
-                    />
-                    <Bar dataKey="attendance" fill="#6366f1" radius={[4, 4, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+              <ChartContainer
+                config={{ attendance: { label: "Attendance" } }}
+                className="h-[300px]"
+                role="img"
+                aria-label="Department-wise attendance bar chart"
+                tabIndex={0}
+              >
+                <BarChart data={ANALYTICS_DATA}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis dataKey="department" className="text-xs" />
+                  <YAxis className="text-xs" />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "hsl(222 47% 11%)",
+                      border: "1px solid hsl(217 91% 60%)",
+                      borderRadius: "8px",
+                    }}
+                  />
+                  <Bar dataKey="attendance" fill="#6366f1" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ChartContainer>
             </CardContent>
           </Card>
         </motion.div>
@@ -176,29 +181,33 @@ export function AnalyticsView() {
               <CardTitle>Engagement Trends</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={ANALYTICS_DATA}>
-                    <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                    <XAxis dataKey="department" className="text-xs" />
-                    <YAxis className="text-xs" domain={[0, 100]} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "hsl(222 47% 11%)",
-                        border: "1px solid hsl(217 91% 60%)",
-                        borderRadius: "8px",
-                      }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="engagement"
-                      stroke="#22c55e"
-                      strokeWidth={2}
-                      dot={{ fill: "#22c55e" }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
+              <ChartContainer
+                config={{ engagement: { label: "Engagement" } }}
+                className="h-[300px]"
+                role="img"
+                aria-label="Engagement trends line chart"
+                tabIndex={0}
+              >
+                <LineChart data={ANALYTICS_DATA}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis dataKey="department" className="text-xs" />
+                  <YAxis className="text-xs" domain={[0, 100]} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "hsl(222 47% 11%)",
+                      border: "1px solid hsl(217 91% 60%)",
+                      borderRadius: "8px",
+                    }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="engagement"
+                    stroke="#22c55e"
+                    strokeWidth={2}
+                    dot={{ fill: "#22c55e" }}
+                  />
+                </LineChart>
+              </ChartContainer>
             </CardContent>
           </Card>
         </motion.div>
@@ -270,19 +279,19 @@ export function AnalyticsView() {
                   <div className="h-[250px]">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
-                        <Pie
-                          data={ANALYTICS_DATA}
-                          dataKey="attendance"
-                          nameKey="department"
-                          cx="50%"
-                          cy="50%"
-                          outerRadius={80}
-                          label
-                        >
-                          {ANALYTICS_DATA.map((entry, index) => (
-                            <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                          ))}
-                        </Pie>
+                            <Pie
+                              data={ANALYTICS_DATA}
+                              dataKey="attendance"
+                              nameKey="department"
+                              cx="50%"
+                              cy="50%"
+                              outerRadius={80}
+                              label
+                            >
+                              {ANALYTICS_DATA.map((entry, index) => (
+                                <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                              ))}
+                            </Pie>
                         <Tooltip />
                       </PieChart>
                     </ResponsiveContainer>

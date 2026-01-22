@@ -1,83 +1,83 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Sidebar } from "@/components/layout/Sidebar"
-import { Header } from "@/components/layout/Header"
+import { useMemo } from "react"
+import { BillingUsage } from "@/components/billing/BillingUsage"
+import { BillingChips } from "@/components/billing/BillingChips"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { LockedFeature } from "@/components/common/LockedFeature"
+import { UpgradeBanner } from "@/components/common/UpgradeBanner"
 import { Dashboard } from "@/components/admin/Dashboard"
 import { AttendanceScanner } from "@/components/admin/AttendanceScanner"
 import { LiveFeed } from "@/components/admin/LiveFeed"
 import { AnalyticsView } from "@/components/admin/Analytics"
-import { BillingUsage } from "@/components/billing/BillingUsage"
-import { BillingChips } from "@/components/billing/BillingChips"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAppStore } from "@/lib/store"
+import { AppShell } from "@/components/layout/AppShell"
 
 export default function AdminPage() {
-  const { sidebarOpen } = useAppStore()
+  const { tenants, activeTenantId } = useAppStore()
+  const activeTenant = useMemo(
+    () => tenants.find((t) => t.id === activeTenantId) ?? tenants[0],
+    [tenants, activeTenantId]
+  )
+
+  const isPremium = activeTenant.plan.name !== "Free"
 
   return (
-    <div className="min-h-screen bg-background flex">
-      <Sidebar />
-      <div
-        className={`flex-1 transition-all duration-300 ${
-          sidebarOpen ? "ml-[280px]" : "ml-[80px]"
-        }`}
-      >
-        <Header />
-        <main className="p-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="mb-3">
-              <BillingChips />
-            </div>
-            <div className="mb-6">
-              <BillingUsage />
-            </div>
-
-            <Tabs defaultValue="dashboard" className="w-full">
-              <TabsList className="grid w-full max-w-[800px] grid-cols-5">
-                <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-                <TabsTrigger value="attendance">Attendance</TabsTrigger>
-                <TabsTrigger value="live">Live Feed</TabsTrigger>
-                <TabsTrigger value="analytics">Analytics</TabsTrigger>
-                <TabsTrigger value="settings">Settings</TabsTrigger>
-              </TabsList>
-
-              <div className="mt-6">
-                <TabsContent value="dashboard">
-                  <Dashboard />
-                </TabsContent>
-                <TabsContent value="attendance">
-                  <AttendanceScanner />
-                </TabsContent>
-                <TabsContent value="live">
-                  <LiveFeed />
-                </TabsContent>
-                <TabsContent value="analytics">
-                  <AnalyticsView />
-                </TabsContent>
-                <TabsContent value="settings">
-                  <SettingsView />
-                </TabsContent>
-              </div>
-            </Tabs>
-          </motion.div>
-        </main>
+    <AppShell title="Dashboard" subtitle="Admin console for events and analytics">
+      <div className="mb-3">
+        <BillingChips />
       </div>
-    </div>
+
+      {!isPremium && (
+        <div className="mb-4">
+          <UpgradeBanner currentPlan={activeTenant.plan.name} onUpgrade={() => alert("Upgrade flow would open here")} />
+        </div>
+      )}
+
+      <div className="mb-6">
+        <BillingUsage />
+      </div>
+
+      <Tabs defaultValue="dashboard" className="w-full">
+        <TabsList className="grid w-full max-w-[800px] grid-cols-5">
+          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+          <TabsTrigger value="attendance">Attendance</TabsTrigger>
+          <TabsTrigger value="live">Live Feed</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsTrigger value="settings">Settings</TabsTrigger>
+        </TabsList>
+
+        <div className="mt-6">
+          <TabsContent value="dashboard">
+            <Dashboard />
+          </TabsContent>
+          <TabsContent value="attendance">
+            {isPremium ? <AttendanceScanner /> : <LockedFeature featureName="Smart Attendance System" requiredPlan="Team" onUpgrade={() => alert("Upgrade flow")}>
+              <AttendanceScanner />
+            </LockedFeature>}
+          </TabsContent>
+          <TabsContent value="live">
+            {isPremium ? <LiveFeed /> : <LockedFeature featureName="Live Check-in Feed" requiredPlan="Team" onUpgrade={() => alert("Upgrade flow")}>
+              <LiveFeed />
+            </LockedFeature>}
+          </TabsContent>
+          <TabsContent value="analytics">
+            {isPremium ? <AnalyticsView /> : <LockedFeature featureName="Advanced Analytics" requiredPlan="Team" onUpgrade={() => alert("Upgrade flow")}>
+              <AnalyticsView />
+            </LockedFeature>}
+          </TabsContent>
+          <TabsContent value="settings">
+            <SettingsView isPremium={isPremium} />
+          </TabsContent>
+        </div>
+      </Tabs>
+    </AppShell>
   )
 }
 
-function SettingsView() {
+function SettingsView({ isPremium }: { isPremium: boolean }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
+    <div>
       <Tabs defaultValue="sso" className="w-full">
         <TabsList className="grid w-full max-w-[1000px] grid-cols-6">
           <TabsTrigger value="org">Org</TabsTrigger>
@@ -98,6 +98,25 @@ function SettingsView() {
             </div>
           </TabsContent>
           <TabsContent value="sso">
+            {!isPremium ? (
+              <LockedFeature featureName="Single Sign-On (SSO)" requiredPlan="Enterprise" onUpgrade={() => alert("Upgrade to Enterprise")}>
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-semibold">SSO Configuration</h3>
+                    <p className="text-sm text-muted-foreground">Configure SAML or OIDC</p>
+                  </div>
+                </div>
+              </LockedFeature>
+            ) : (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-white">SSO Configuration</h3>
+                  <p className="text-sm text-slate-400">Configure SAML or OIDC for enterprise authentication</p>
+                </div>
+              </div>
+            )}
+          </TabsContent>
+          <TabsContent value="org">
             <div className="space-y-6">
               <div>
                 <h3 className="text-lg font-semibold">Single Sign-On (SSO)</h3>
@@ -139,6 +158,6 @@ function SettingsView() {
           </TabsContent>
         </div>
       </Tabs>
-    </motion.div>
+    </div>
   )
 }

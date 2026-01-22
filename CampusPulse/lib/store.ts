@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type UserRole = 'admin' | 'student'
+export type UserRole = 'superadmin' | 'admin' | 'student' | 'public'
 
 export type BillingPlan = {
   id: string
@@ -25,6 +25,9 @@ export type Tenant = {
   plan: BillingPlan
   usage: UsageMeter
   billingEmail: string
+  subscriptionStatus: 'active' | 'inactive' | 'trial'
+  createdAt: string
+  activeUsers: number
 }
 
 interface User {
@@ -54,9 +57,20 @@ interface AppState {
   setSidebarOpen: (open: boolean) => void
   toggleDarkMode: () => void
   setActiveTenant: (id: string) => void
+  toggleTenantSubscription: (tenantId: string) => void
 }
 
 // Default users for demo
+const DEFAULT_SUPERADMIN: User = {
+  id: 'superadmin-1',
+  name: 'Jordan Ellis',
+  email: 'jordan@campuspulse.io',
+  role: 'superadmin',
+  avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jordan',
+  department: 'CampusPulse Platform',
+  year: 'Platform Owner',
+}
+
 const DEFAULT_ADMIN: User = {
   id: 'admin-1',
   name: 'Sarah Chen',
@@ -119,6 +133,9 @@ const DEFAULT_TENANTS: Tenant[] = [
       seatsUsed: 18,
     },
     billingEmail: 'billing@northstar.edu',
+    subscriptionStatus: 'active',
+    createdAt: '2023-09-15',
+    activeUsers: 1480,
   },
   {
     id: 'org-eduplus',
@@ -132,6 +149,25 @@ const DEFAULT_TENANTS: Tenant[] = [
       seatsUsed: 143,
     },
     billingEmail: 'finance@eduplus.org',
+    subscriptionStatus: 'active',
+    createdAt: '2023-06-22',
+    activeUsers: 4020,
+  },
+  {
+    id: 'org-freeuni',
+    name: 'Community College East',
+    slug: 'cce',
+    plan: BILLING_PLANS.free,
+    usage: {
+      monthlyActiveUsers: 45,
+      eventsTracked: 8,
+      scans: 150,
+      seatsUsed: 3,
+    },
+    billingEmail: 'admin@cce.edu',
+    subscriptionStatus: 'active',
+    createdAt: '2024-01-10',
+    activeUsers: 45,
   },
 ]
 
@@ -145,7 +181,7 @@ export const useAppStore = create<AppState>((set) => ({
 
   setUserRole: (role) => set((state) => ({
     userRole: role,
-    currentUser: role === 'admin' ? DEFAULT_ADMIN : DEFAULT_STUDENT
+    currentUser: role === 'superadmin' ? DEFAULT_SUPERADMIN : role === 'admin' ? DEFAULT_ADMIN : DEFAULT_STUDENT
   })),
   
   setCurrentUser: (user) => set({ currentUser: user }),
@@ -157,5 +193,16 @@ export const useAppStore = create<AppState>((set) => ({
   toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
 
   setActiveTenant: (id) => set({ activeTenantId: id }),
+
+  toggleTenantSubscription: (tenantId) => set((state) => ({
+    tenants: state.tenants.map((t) =>
+      t.id === tenantId
+        ? {
+            ...t,
+            subscriptionStatus: t.subscriptionStatus === 'active' ? 'inactive' : 'active',
+          }
+        : t
+    ),
+  })),
 }))
 

@@ -125,6 +125,53 @@ export function Dashboard() {
         ))}
       </div>
 
+      {/* Smart Alerts - Premium Feature */}
+      <Card className="border-amber-500/30 bg-gradient-to-r from-amber-500/5 to-orange-500/5">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-amber-200">
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+            Smart Alerts & Insights
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
+              <div className="h-8 w-8 rounded-full bg-amber-500/20 flex items-center justify-center">
+                <TrendingUp className="h-4 w-4 text-amber-300" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-amber-100">Peak Attendance Expected</p>
+                <p className="text-xs text-amber-200">Career Fair tomorrow - 85% capacity predicted</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+              <div className="h-8 w-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                <svg className="h-4 w-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-emerald-100">Team Formation Success</p>
+                <p className="text-xs text-emerald-200">12 new teams formed this week</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
+              <div className="h-8 w-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                <svg className="h-4 w-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-blue-100">Engagement Spike</p>
+                <p className="text-xs text-blue-200">+23% student activity in Computer Science dept</p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Quick Stats Row */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <Card className="col-span-4">

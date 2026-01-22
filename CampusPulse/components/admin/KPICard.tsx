@@ -1,9 +1,10 @@
 "use client"
 
+import React, { useId } from "react"
 import { motion } from "framer-motion"
 import { LucideIcon, TrendingUp, TrendingDown } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { cn, trendColor } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 const defaultSeries = [18, 22, 20, 24, 28, 26, 30]
 
@@ -55,6 +56,7 @@ export function KPICard({
 }
 
 function Sparkline({ data, color }: { data: number[]; color: string }) {
+  const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "")
   const max = Math.max(...data)
   const min = Math.min(...data)
   const points = data
@@ -65,16 +67,18 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
     })
     .join(" ")
 
+  const gradId = `spark-${uid}`
+
   return (
     <svg viewBox="0 0 100 100" className="h-full w-full">
       <defs>
-        <linearGradient id={`spark-${color}`} x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor={color} stopOpacity="0.4" />
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
       <polyline
-        fill={`url(#spark-${color})`}
+        fill={`url(#${gradId})`}
         stroke={color}
         strokeWidth="2"
         points={`0,100 ${points} 100,100`}

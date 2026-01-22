@@ -91,7 +91,7 @@ export function RecruitmentCard({ post, onJoin }: RecruitmentCardProps) {
               </span>
               <span className="flex items-center gap-1">
                 <Clock className="h-4 w-4" />
-                {formatRelativeTime(post.postedAt)}
+                {formatRelativeTime(new Date(post.postedAt))}
               </span>
             </div>
             <Button size="sm" onClick={onJoin}>

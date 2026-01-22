@@ -4,26 +4,57 @@
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
-    --card: 222 47% 14%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 14%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 245 82 63;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 217 33% 17%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 224 76% 48%;
+    --background: 0 0% 100%;
+    --foreground: 220 6% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 6% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 6% 12%;
+    --primary: 222 89% 46%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 16% 97%;
+    --secondary-foreground: 220 6% 12%;
+    --muted: 210 18% 96%;
+    --muted-foreground: 220 5% 45%;
+    --accent: 260 65% 92%;
+    --accent-foreground: 220 6% 12%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 12% 90%;
+    --input: 220 14% 95%;
+    --ring: 222 89% 46%;
     --radius: 0.5rem;
+    --chart-1: 222 89% 46%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
@@ -108,5 +139,17 @@
 
 .glow-success {
   box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+/* Focus styles for interactive widgets */
+tr:focus-visible, tr[tabindex]:focus-visible {
+  outline: 3px solid rgba(99,102,241,0.85);
+  outline-offset: 2px;
+}
+
+/* Make chart containers keyboard-focusable and visible */
+[data-chart]:focus-visible {
+  outline: 3px solid rgba(99,102,241,0.85);
+  outline-offset: 4px;
 }
 

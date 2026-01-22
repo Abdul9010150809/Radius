@@ -19,6 +19,9 @@ import {
   ChevronLeft,
   ChevronRight,
   ShieldCheck,
+  Building2,
+  TrendingUp,
+  Activity,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAppStore } from "@/lib/store"
@@ -36,12 +39,15 @@ const iconMap: Record<string, React.ReactNode> = {
   Calendar: <Calendar className="h-5 w-5" />,
   Award: <Award className="h-5 w-5" />,
   User: <User className="h-5 w-5" />,
+  Building2: <Building2 className="h-5 w-5" />,
+  TrendingUp: <TrendingUp className="h-5 w-5" />,
+  Activity: <Activity className="h-5 w-5" />,
 }
 
 export function Sidebar() {
   const pathname = usePathname()
   const { sidebarOpen, userRole, toggleSidebar, tenants, activeTenantId } = useAppStore()
-  const items = SIDEBAR_ITEMS[userRole]
+  const items = SIDEBAR_ITEMS[userRole] || SIDEBAR_ITEMS.student
   const activeTenant = tenants.find((t) => t.id === activeTenantId) ?? tenants[0]
 
   return (
