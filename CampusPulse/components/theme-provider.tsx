@@ -1,6 +1,7 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect } from "react"
+import { useAppStore } from "@/lib/store"
 
 type Theme = "light" | "dark"
 
@@ -19,7 +20,9 @@ export function ThemeProvider({
   children: React.ReactNode
   defaultTheme?: Theme
 }) {
-  const [theme, setTheme] = useState<Theme>(defaultTheme)
+  const { darkMode, toggleDarkMode } = useAppStore()
+
+  const theme: Theme = darkMode ? "dark" : "light"
 
   useEffect(() => {
     const root = document.documentElement
@@ -30,8 +33,10 @@ export function ThemeProvider({
 
   const value: ThemeContextValue = {
     theme,
-    toggle: () => setTheme((prev) => (prev === "dark" ? "light" : "dark")),
-    setTheme,
+    toggle: toggleDarkMode,
+    setTheme: (value: Theme) => {
+      // This could be extended if needed, but for now we use the store
+    },
   }
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

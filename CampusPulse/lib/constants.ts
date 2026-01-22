@@ -1,6 +1,21 @@
+export type Event = {
+  id: string
+  title: string
+  description: string
+  date: string
+  time: string
+  location: string
+  type: "global" | "campus"
+  category: string
+  registered: number
+  maxCapacity: number
+  image: string
+  organizer: string
+}
+
 // Mock Data for CampusPulse
 
-export const USERS = [
+export const USERS: User[] = [
   {
     id: '1',
     name: 'Alex Johnson',
@@ -34,7 +49,7 @@ export const USERS = [
   },
 ]
 
-export const EVENTS = [
+export const EVENTS: Event[] = [
   {
     id: '1',
     title: 'Hackathon 2024',

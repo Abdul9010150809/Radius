@@ -16,7 +16,7 @@ export function CameraScanner() {
       fps: 10,
       qrbox: 240,
       disableFlip: false,
-    })
+    }, false)
 
     scanner.render(
       (decoded) => {
